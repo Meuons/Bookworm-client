@@ -299,7 +299,7 @@ console.log(body)
           "merchant_urls": {
             "terms": "https://www.example.com/terms.html",
             "checkout": "https://www.example.com/checkout.html?order_id={checkout.order.id}",
-            "confirmation": "${url}client-app/?order_id={checkout.order.id}",
+            "confirmation": "https://meuons.github.io/client-app/?order_id={checkout.order.id}",
             "push": "https://www.example.com/api/push?order_id={checkout.order.id}"
           }
         }`
