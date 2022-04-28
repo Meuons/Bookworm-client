@@ -29,7 +29,7 @@ y
       this.setState({totalAmount: total.amount, totalPrice: total.price, totalTax: total.tax})
     }
     
-       fetch('http://localhost:3000/')
+       fetch(url)
             .then(async response => {
                 const data = await response.json();
     
