@@ -18,7 +18,7 @@ class Start extends Component {
 
     }
 
-
+y
     componentDidMount() {
       //Get all the items
       let total = JSON.parse(localStorage.getItem("total"))
@@ -79,11 +79,11 @@ class Start extends Component {
     <p className="productDescription">{this.state.description}</p>
 <div>
 
-<button class="cartBtn" onClick ={() => { this.addToCart(this.state.id) }} ><img class="cartIcon" src={require('./img/cart.png')}>
+<button class="cartBtn" onClick ={() => { this.addToCart(this.state.id) }} ><img alt="cart" class="cartIcon" src={require('./img/cart.png')}>
   </img>{this.state.price} kr</button>
 </div>
    
-    <button onClick ={() => { this.reset() }} >Go back</button>
+    <button onClick ={() => { this.reset() }} ><img alt="arrow" class='icon' src={require('./img/arrow.png')}></img>Go back</button>
     </div>
     </div>, document.getElementById('wrapper'))
      
@@ -141,10 +141,10 @@ class Start extends Component {
           <div id="products">
       {array.map(item => 
         //Loop all the items and write out their properties
-        <React.Fragment key={item._id}>
-     <div id= {item.id + "Thumbnail"} className="thumbnail">
+        <React.Fragment key={item.id}>
+     <div id= {item._id + "Thumbnail"} className="thumbnail">
        <div>
-<img onClick ={() => { this.singleProduct(item._id) }}  className="thumbnailImage" src={item.image}></img>
+<img alt={item.title} onClick ={() => { this.singleProduct(item._id) }}  className="thumbnailImage" src={item.image}></img>
 </div>
 <div>
   <div>
@@ -155,7 +155,7 @@ class Start extends Component {
 </div>
 <div>
 
-<button class="cartBtn" onClick ={() => { this.addToCart(item._id) }} ><img class="cartIcon" src={require('./img/cart.png')}>
+<button class="cartBtn" onClick ={() => { this.addToCart(item._id) }} ><img alt="cart" class="cartIcon" src={require('./img/cart.png')}>
   </img>{item.price} kr</button>
 </div>
 </div>
@@ -171,4 +171,5 @@ class Start extends Component {
   }
   
   export default Start
+
 
