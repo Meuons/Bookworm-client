@@ -44,7 +44,7 @@ class Cart extends React.Component {
         
      
             <tr id={value.id + "cartItem"} >
-            <td> <img src={value.image} className="cartImg"></img></td>
+            <td> <img src={value.image} alt={value.title}  className="cartImg"></img></td>
             <td>{value.title}</td>
             <td>x{value.amount}</td>
             <td>{value.price} kr</td>
@@ -382,7 +382,7 @@ Cart(){
        
         items.push(
           <tr id={value.id + "cartItem"} >
-         <td> <img src={value.image} className="cartImg"></img></td>
+         <td> <img src={value.image} alt={value.title} className="cartImg"></img></td>
          <td>{value.title}</td>
          <td>x{value.amount}</td>
          <td>{value.price} kr</td>
@@ -411,17 +411,21 @@ Cart(){
           </tr>
         {items}
       </table> 
-      <button onClick ={() => { window.location.reload(false); }} >Go back</button>        
-        <button onClick ={(event) => { localStorage.clear(); this.Cart(); }} >Clear cart</button>
+      <button onClick ={() => { window.location.reload(false); }} ><img alt="arrow" class='icon'src={require('./img/arrow.png')}></img>Go back</button>        
+        <button onClick ={(event) => { localStorage.clear(); this.Cart(); }} ><img alt="trashcan" class='icon'src={require('./img/trash.png')}></img>Clear cart</button>
      
 
       </div>
       <div id="cartTotal">
 
       <h3>Total price {total.price} kr</h3>
+      <div>     
+         <img alt="checkout" id='checkoutIcon'src={require('./img/checkout.png')}></img>
       <h4>Checkout with:</h4>
-     <div> <button id='klarnaBtn' onClick ={() => { this.KlarnaCheckout() }} ><img class='payLogo'src={require('./img/klarna.png')}></img></button></div>
-     <div> <button id='paypalBtn' onClick ={() => { this.checkout() }} ><img class='payLogo'src={require('./img/paypal.png')}></img></button></div>
+
+      </div>
+     <div> <button alt="klarna" id='klarnaBtn' onClick ={() => { this.KlarnaCheckout() }} ><img class='payLogo'src={require('./img/klarna.png')}></img></button></div>
+     <div> <button alt="paypal" id='paypalBtn' onClick ={() => { this.checkout() }} ><img class='payLogo'src={require('./img/paypal.png')}></img></button></div>
 
       </div>
       </>
@@ -435,7 +439,7 @@ Cart(){
         <>
           <div id="cart">
               <h2>The cart is empty</h2>
-              <button onClick ={() => { window.location.reload(false); }} >Go back</button>
+              <button onClick ={() => { window.location.reload(false); }} ><img alt="arrow" class='icon'src={require('./img/arrow.png')}></img>Go back</button>
        </div>
             </>
                  
@@ -485,7 +489,7 @@ Cart(){
         <div id="headerCart">
       
         <div>
-        <button onClick ={() => { this.Cart() }} ><img class="cartIcon" src={require('./img/cart.png')}>
+        <button onClick ={() => { this.Cart() }} ><img alt="cart" class="cartIcon" src={require('./img/cart.png')}>
   </img>  <span>{this.state.totalAmount} </span>
    </button>
         </div>
