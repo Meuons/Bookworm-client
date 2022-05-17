@@ -30,9 +30,11 @@ const orderId = urlParams.get('order_id')
          
            let htmlSnippet = {__html:data.html_snippet}
            console.log(htmlSnippet);
+        
            ReactDOM.render(
              <>  
        <div dangerouslySetInnerHTML={htmlSnippet} id="my-confirmation-container"></div>
+
              </>, document.getElementById('wrapper')
              )
     
@@ -48,11 +50,7 @@ const orderId = urlParams.get('order_id')
                     parentNode.removeChild(scriptsTags[i])
                     parentNode.appendChild(newScriptTag)
                 }
-                ReactDOM.render(
-                    <>  
-              <button onClick={this.GoBack} class="logo">Bookworm</button>
-                    </>, document.getElementById('logo')
-                    )
+          
              localStorage.clear()
 
             if (!response.ok) {
@@ -61,14 +59,17 @@ const orderId = urlParams.get('order_id')
                 return Promise.reject(error);
             }
            //Store all the items from the database in an array
-     
+           const a = document.createElement('a');
+           a.innerText = "Continue"
+           a.setAttribute('id','klarnaContinue')
+           a.href = 'https://meuons.github.io'
+           document.getElementById("my-confirmation-container").appendChild(a)
         })
         .catch(error => {
             this.setState({ errorMessage: error.toString() });
             console.error('There was an error!', error);
         });
-
-      
+  
 
 }
 

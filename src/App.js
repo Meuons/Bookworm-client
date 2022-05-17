@@ -34,7 +34,7 @@ function Component(props) {
  
     <nav>
    <div className="logo">
-   <button onClick ={() => { window.location.reload(false); }} class="logo">Bookworm</button>
+   <button onClick ={() => { window.location.reload(false); }} className="logo">Bookworm</button>
     </div>
     
 <Cart/>

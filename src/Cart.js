@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Buffer} from 'buffer';
+
 const base64 = require('base-64');
 //webpack.config.js
 
@@ -15,8 +15,8 @@ else{
 
 
 class Cart extends React.Component {
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
       this.state = {totalAmount: 0, totalPrice: 0, array:[], email:'', forename:'', surname:'', country:'', zipcode:'', adress:'', id:0};
     }
     
@@ -124,7 +124,7 @@ class Cart extends React.Component {
     }
     
 PayPalCheckout(){
-  console.log('paypal')
+
   var total = JSON.parse(localStorage.getItem("total"));  
       
   let items = []
@@ -175,7 +175,7 @@ PayPalCheckout(){
           }
         }
       }`
-console.log(body)
+
       let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -195,21 +195,16 @@ console.log(body)
               )
               .then(async response => { 
                       const data = await response.json();
-                      console.log(data)
+
                       document.getElementsByTagName("html")[0].innerHTML = data
                       document.body.setAttribute("style", "display:block")
                       let links = document.body.getElementsByTagName('a')
                       let forms = document.body.getElementsByTagName('form')
-                      console.log(forms)
-                      console.log(links.length)
-              
-         
+
                       for(let i=0; i<links.length; i++){
-                          console.log(links[i].href)
-                          links[i].setAttribute('href', links[i].href.replace('https://meuons.github.io/', 'https://paypal.com/'));
-                          console.log(links[i].href)
+                          links[i].setAttribute('href', links[i].href.replace('http://meuons.github.io/', 'https://paypal.com/'));
                       }
-                      forms[0].setAttribute('action', forms[0].action.replace('https://meuons.github.io/', 'https://paypal.com/'))
+                      forms[0].setAttribute('action', forms[0].action.replace('http://meuons.github.io/', 'https://paypal.com/'))
                       document.getElementById('antiClickjack').remove()
                   if (!response.ok) {
           
@@ -250,7 +245,7 @@ console.log(body)
      
 
       var total = JSON.parse(localStorage.getItem("total"));  
-      console.log(total)
+
       let items = []
     
         
@@ -270,8 +265,7 @@ console.log(body)
        
             var key = localStorage.key(i);
                 var value = JSON.parse(localStorage.getItem(key));
-                console.log(value)
-                console.log(value.amount)
+
                 let unitPrice = value.price / value.amount
 
               let totalTaxAmount = value.price*0.8 / 4
@@ -299,14 +293,14 @@ console.log(body)
           "merchant_urls": {
             "terms": "https://www.example.com/terms.html",
             "checkout": "https://www.example.com/checkout.html?order_id={checkout.order.id}",
-            "confirmation": "https://meuons.github.io/client-app/?order_id={checkout.order.id}",
+            "confirmation": "http://meuons.github.io/bookworm-client/?order_id={checkout.order.id}",
             "push": "https://www.example.com/api/push?order_id={checkout.order.id}"
           }
         }`
          
         
     
-        console.log(body);
+
 
         const requestOptions = {
           method: 'POST',
@@ -318,10 +312,10 @@ console.log(body)
       )
       .then(async response => { 
               const data = await response.json();
-          console.log(data);
+
            let container
           let htmlSnippet = {__html:data.html_snippet}
-          console.log(htmlSnippet);
+
           ReactDOM.render(
             <>  
       <div dangerouslySetInnerHTML={htmlSnippet} id="my-checkout-container"></div>
@@ -330,10 +324,10 @@ console.log(body)
             var checkoutContainer = document.getElementById('my-checkout-container')
            
             var scriptsTags = checkoutContainer.getElementsByTagName('script')
-            console.log(scriptsTags)
+
             // This is necessary otherwise the scripts tags are not going to be evaluated
             for (var i = 0; i < scriptsTags.length; i++) {
-              console.log('loop')
+
                 var parentNode = scriptsTags[i].parentNode
                 var newScriptTag = document.createElement('script')
                 newScriptTag.type = 'text/javascript'
@@ -372,24 +366,32 @@ Cart(){
     var total = JSON.parse(localStorage.getItem("total"));   
     if(total != null){
 
-   
+
     let items = []
   
-      for (var i = 1; i < localStorage.length; i++) {
-    var key = localStorage.key(i);
-        var value = JSON.parse(localStorage.getItem(key));
+    Object.keys(localStorage).map(key => {
+ 
+    
+    if(key!="total"){
         // set iteration key name
-       
-        items.push(
-          <tr id={value.id + "cartItem"} >
-         <td> <img src={value.image} alt={value.title} className="cartImg"></img></td>
-         <td>{value.title}</td>
-         <td>x{value.amount}</td>
-         <td>{value.price} kr</td>
+     let item = JSON.parse(localStorage.getItem(key))
+
+        items.push(  
+        <React.Fragment key={item.id}>
+          <tr id={item.id + "cartItem"} >
+         <td> <img src={item.image} alt={item.title} className="cartImg"></img></td>
+         <td>{item.title}</td>
+         <td>x{item.amount}</td>
+         <td>{item.price} kr</td>
+         <td><button id={"cartBtn" + item.id} onClick={() => {this.addItem(item.id)}} >+</button> </td> 
+        <td><button id={"cartBtn" + item.id} onClick={() => {this.subtractItem(item.id)}} >-</button> </td> 
+    
           </tr>
-          )
-  
+            </React.Fragment> ) 
+  }
       }
+        )
+       
     ReactDOM.render(
   <>
     <div id="cart">
@@ -411,8 +413,8 @@ Cart(){
           </tr>
         {items}
       </table> 
-      <button onClick ={() => { window.location.reload(false); }} ><img alt="arrow" class='icon'src={require('./img/arrow.png')}></img>Go back</button>        
-        <button onClick ={(event) => { localStorage.clear(); this.Cart(); }} ><img alt="trashcan" class='icon'src={require('./img/trash.png')}></img>Clear cart</button>
+      <button onClick ={() => { window.location.reload(false); }} ><img alt="arrow" className='icon'src={require('./img/arrow.png')}></img>Go back</button>        
+        <button onClick ={(event) => { localStorage.clear(); this.Cart(); }} ><img alt="trashcan" className='icon'src={require('./img/trash.png')}></img>Clear cart</button>
      
 
       </div>
@@ -424,8 +426,8 @@ Cart(){
       <h4>Checkout with:</h4>
 
       </div>
-     <div> <button alt="klarna" id='klarnaBtn' onClick ={() => { this.KlarnaCheckout() }} ><img class='payLogo'src={require('./img/klarna.png')}></img></button></div>
-     <div> <button alt="paypal" id='paypalBtn' onClick ={() => { this.checkout() }} ><img class='payLogo'src={require('./img/paypal.png')}></img></button></div>
+     <div> <button alt="klarna" id='klarnaBtn' onClick ={() => { this.KlarnaCheckout() }} ><img className='payLogo'src={require('./img/klarna.png')}></img></button></div>
+     <div> <button alt="paypal" id='paypalBtn' onClick ={() => { this.checkout() }} ><img className='payLogo'src={require('./img/paypal.png')}></img></button></div>
 
       </div>
       </>
@@ -439,7 +441,7 @@ Cart(){
         <>
           <div id="cart">
               <h2>The cart is empty</h2>
-              <button onClick ={() => { window.location.reload(false); }} ><img alt="arrow" class='icon'src={require('./img/arrow.png')}></img>Go back</button>
+              <button onClick ={() => { window.location.reload(false); }} ><img alt="arrow" className='icon'src={require('./img/arrow.png')}></img>Go back</button>
        </div>
             </>
                  
@@ -449,39 +451,49 @@ Cart(){
   
   
   }
-  removeItem(id){
+  addItem(id) {
+    let cartItem = JSON.parse(localStorage.getItem(id))
+    let unitPrice = cartItem.price/cartItem.amount
+    cartItem.amount++
+
+    cartItem.price = unitPrice*cartItem.amount
+    
+   let total = JSON.parse(localStorage.getItem("total"))
+
+   total.price = total.price + unitPrice
+   total.tax = total.price/5
+   total.amount ++
+  localStorage.setItem("total", JSON.stringify(total))
+  localStorage.setItem(id, JSON.stringify(cartItem))
+  this.Cart()
+   }
+   subtractItem(id) {
    let item = JSON.parse(localStorage.getItem(id));
-   console.log(id)
-   /*
+
+  
    let unitPrice = item.price/item.amount
     item.amount --
-   item.price = unitPrice * item.amount
+   item.price = unitPrice * item.amount    
+   let total = JSON.parse(localStorage.getItem("total"))
+
+    total.price = total.price - unitPrice
+
+    total.tax -= item.price*0.8 / 4
+    total.amount --
     if(item.amount == 0){
       localStorage.removeItem(id)
     }
     else{
       localStorage.setItem(id, JSON.stringify(item))
     }
-    let total = JSON.parse(localStorage.getItem("total"))
-    total.price -= item.price
-    total.tax -= item.price*0.8 / 4
-    total.amount --
+
     if(total.amount == 0){
       localStorage.removeItem("total")
     }
     else{
       localStorage.setItem("total", JSON.stringify(total))
-    }*
-    ReactDOM.render(
-      <>
-          <div>
-        <button onClick ={() => { this.Cart() }} ><img class="cartIcon" src={require('./img/cart.png')}>
-  </img>  <span>{total.amount} </span>
-   </button>
-        </div>
-          </>  
-          , document.getElementById('headerCart')
-      )*/
+    }
+
       this.Cart()
   }
     render() {
@@ -489,7 +501,7 @@ Cart(){
         <div id="headerCart">
       
         <div>
-        <button onClick ={() => { this.Cart() }} ><img alt="cart" class="cartIcon" src={require('./img/cart.png')}>
+        <button onClick ={() => { this.Cart() }} ><img alt="cart" className="cartIcon" src={require('./img/cart.png')}>
   </img>  <span>{this.state.totalAmount} </span>
    </button>
         </div>
