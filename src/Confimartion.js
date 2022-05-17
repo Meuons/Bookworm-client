@@ -62,7 +62,7 @@ const orderId = urlParams.get('order_id')
            const a = document.createElement('a');
            a.innerText = "Continue"
            a.setAttribute('id','klarnaContinue')
-           a.href = 'https://meuons.github.io'
+           a.href = 'https://meuons.github.io/bookworm-client'
            document.getElementById("my-confirmation-container").appendChild(a)
         })
         .catch(error => {
