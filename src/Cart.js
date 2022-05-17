@@ -202,9 +202,9 @@ PayPalCheckout(){
                       let forms = document.body.getElementsByTagName('form')
 
                       for(let i=0; i<links.length; i++){
-                          links[i].setAttribute('href', links[i].href.replace('http://meuons.github.io/', 'https://paypal.com/'));
+                          links[i].setAttribute('href', links[i].href.replace('https://meuons.github.io/', 'https://paypal.com/'));
                       }
-                      forms[0].setAttribute('action', forms[0].action.replace('http://meuons.github.io/', 'https://paypal.com/'))
+                      forms[0].setAttribute('action', forms[0].action.replace('https://meuons.github.io/', 'https://paypal.com/'))
                       document.getElementById('antiClickjack').remove()
                   if (!response.ok) {
           
