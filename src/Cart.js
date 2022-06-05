@@ -234,10 +234,6 @@ PayPalCheckout(){
           console.error('There was an error!', error);
       });
 
-
-
-      
-   
    
     
 }
